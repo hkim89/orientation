@@ -1,0 +1,2 @@
+../data/LMM_MWE/output/cache/imputed_genotypes_chr21.phenotypes.fastGWA.gz: 25
+../data/LMM_MWE/output/cache/imputed_genotypes_chr22.phenotypes.fastGWA.gz: 22

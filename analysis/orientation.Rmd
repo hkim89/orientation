@@ -87,9 +87,13 @@ head(sub_UKBB) # show part of the data
 ```
 
 **Q1:** How many females and males are there in this data? Please show your code below how these numbers are computed.
+
+A: Female:Male = 77535:67221 (referred to code section)
  
 **Q2:** What type of trait do you think best describes tinnitus as a phenotype? 
 A.Binary B. Continuous C. Ordinal 
+
+A:  C. Ordinal (having 7 levels)
 
 **Q3:** Recode f.4803
 
@@ -131,6 +135,8 @@ for (i in new_column_names)
 
 What do you think has been achieved by recoding these fields?
 
+A: Whether `tinnitus` was suffered (yes/no) seems to matter rather than how often it was suffered.
+
 **Q4:** Define case and control status of tinnitus for each participant in the study:
 
 ```{r}
@@ -153,6 +159,8 @@ head(df_recode,10)
 
 How many cases and how many controls do we have for this phenotpype?
 
+A:  FALSE:TRUE =101550:43206 (referred to code section)
+
 **Q5:** Extract a subset of columns from all participants for association study. 
 
 ```{r}
@@ -164,6 +172,18 @@ head(df_cases,10)
 Please modify codes above to extract all the controls and keep only these columns: `FID`, `IID`, `cases`, `f.22001.0.0`, `f.21003.0.0`, `f.21003.1.0`, `f.21003.2.0`, `f.21003.3.0`. Please show the first 10 rows of the output.
 ```{r}
 # YOUR CODE
+#Q1
+table(sub_UKBB$f.22001.0.0)
+#Q2: C. Ordinal (having 7 levels)
+head(factor(sub_UKBB$f.4803.0.0))
+#Q3: whether 'tinnitus' was suffered (yes/no) seems to matter rather than how often it was suffered.
+#Q4: true for cases, false for controls
+table(df_recode$cases)
+#Q5
+df_controls  <- df_recode %>%
+  select(IID,FID,cases,f.22001.0.0, f.21003.0.0, f.21003.1.0,f.21003.2.0, f.21003.3.0)%>% 
+  filter(cases==FALSE)
+head(df_controls,10)  
 ```
 \newpage
 
@@ -171,11 +191,18 @@ Please modify codes above to extract all the controls and keep only these column
  
 **Q6:** Field 21003 contains the information of the age of participants, same as field 4803. Note that some of them have more than one age. Can you guess why?
 
+A: They made next visits.
+
 **Q7:** For those with more than one age records, which age do you think should be used in the genetic association analysis?
+
+A: Based on summary statistics of 3 fields (1st - 4th visits) regardless of control and case groups, the interquartile range is narrow and overlapped across three fields: 57 (or 58) - 67 (or 71). It appears that participants in that range visit at least twice since the first visit has no missing.  Since the next visit happened a few years after the first visit or the previous visit, we may consider the interquartile range plus $\alpha$ years in the first visit summary statistics.
 
 **Q8:** Please compute a summary of age information for controls (you can use `summary()` function in R):
 ```{r}
 #YOUR CODE
+
+#Q8:
+ summary(df_controls[,5:8])
 ```
 \newpage
 
@@ -189,6 +216,8 @@ We fit below simple linear model with 2 variables from a data-set to see their r
 
 **Q9:** Is there association between `mpg of the car` and `weight of the car`? If so, it appearing to be positive or negative? Is the association significant and why? 
 
+A: There is a negative association between `mpg` and `weight` since `mpg` decreases by 0.007647 for  one unit of increase in `weight`, and p-values in F-statistics and t-statistics show the model is significant. 
+
 ```{r, echo=FALSE}
 # check if you have ISLR package, if not, install it
 if(!requireNamespace('ISLR')) install.packages('ISLR') 
@@ -198,10 +227,18 @@ fit_1<-lm(mpg ~ weight, auto_data)
 summary(fit_1)
 ```
 
-**Q10:** Please create a new variable to indicate cars having MPG greater than 23 as 1, otherwise 0, then use logistic regrssion via `glm()` function to analyze association between weight and this new variable you just created. Please comment on what you find.
+**Q10:** Please create a new variable to indicate cars having MPG greater than 23 as 1, otherwise 0, then use logistic regrssion via `glm()` function to analyze association between weight and this new variable you just created. Please comment on what you find. 
+
+A: There exists association between the new variable `bin` and `weight`, and the asymptotic chi-squre for goodness-fit shows including `weight` in the model is better than the null model.
 
 **Q11:** Find the `Estimates` from your association results summary. How do you interpret the estimated effects of weight in the context of linear regression, and in the context of logistic regression?
 
+A: The interpretation on the former was done in **Q9**. The latter can be interpreted that the log odds ratio of `bin (binary mpg)` increases by -0.0040954 for one unit change in `weight`, etc. 
+
 ```{r}
 #YOUR CODE
+auto_data$bin<-(auto_data$mpg>23)
+logit<-glm(bin~weight, data = auto_data,family = binomial)
+summary(logit)
+with(logit, pchisq(null.deviance-deviance,df.null-df.residual,lower.tail = FALSE)) #goodness of fit
 ```
