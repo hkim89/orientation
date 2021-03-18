@@ -1,7 +1,7 @@
 ---
 title: "R exercise: phenotype data proprocessing"
-author: "Haoyue Shuai"
-date: "Oct. 8th, 2020"
+author: "Hyeonju Kim"
+date: "Mar. 18th, 2021"
 output:
   html_document:
     code_folding: show
@@ -88,12 +88,12 @@ head(sub_UKBB) # show part of the data
 
 **Q1:** How many females and males are there in this data? Please show your code below how these numbers are computed.
 
-A: Female:Male = 77535:67221 (referred to code section)
+**A:** Female:Male = 77535:67221 (referred to code section)
  
 **Q2:** What type of trait do you think best describes tinnitus as a phenotype? 
 A.Binary B. Continuous C. Ordinal 
 
-A:  C. Ordinal (having 7 levels)
+**A:**  C. Ordinal (having 7 levels)
 
 **Q3:** Recode f.4803
 
@@ -135,7 +135,7 @@ for (i in new_column_names)
 
 What do you think has been achieved by recoding these fields?
 
-A: Whether `tinnitus` was suffered (yes/no) seems to matter rather than how often it was suffered.
+**A:** Whether `tinnitus` was suffered (yes/no) seems to matter rather than how often it was suffered, or the former is more interested than the latter.
 
 **Q4:** Define case and control status of tinnitus for each participant in the study:
 
@@ -159,7 +159,7 @@ head(df_recode,10)
 
 How many cases and how many controls do we have for this phenotpype?
 
-A:  FALSE:TRUE =101550:43206 (referred to code section)
+**A:**  FALSE:TRUE =101550:43206 (referred to code section)
 
 **Q5:** Extract a subset of columns from all participants for association study. 
 
@@ -191,7 +191,7 @@ head(df_controls,10)
  
 **Q6:** Field 21003 contains the information of the age of participants, same as field 4803. Note that some of them have more than one age. Can you guess why?
 
-A: They made next visits.
+**A:** They made next visits.
 
 **Q7:** For those with more than one age records, which age do you think should be used in the genetic association analysis?
 
@@ -216,7 +216,7 @@ We fit below simple linear model with 2 variables from a data-set to see their r
 
 **Q9:** Is there association between `mpg of the car` and `weight of the car`? If so, it appearing to be positive or negative? Is the association significant and why? 
 
-A: There is a negative association between `mpg` and `weight` since `mpg` decreases by 0.007647 for  one unit of increase in `weight`, and p-values in F-statistics and t-statistics show the model is significant. 
+**A:** There is a negative association between `mpg` and `weight` since `mpg` decreases by 0.007647 for  one unit of increase in `weight`, and p-values in F-statistics and t-statistics show the model is significant. 
 
 ```{r, echo=FALSE}
 # check if you have ISLR package, if not, install it
@@ -229,11 +229,11 @@ summary(fit_1)
 
 **Q10:** Please create a new variable to indicate cars having MPG greater than 23 as 1, otherwise 0, then use logistic regrssion via `glm()` function to analyze association between weight and this new variable you just created. Please comment on what you find. 
 
-A: There exists association between the new variable `bin` and `weight`, and the asymptotic chi-squre for goodness-fit shows including `weight` in the model is better than the null model.
+**A:** There exists association between the new variable `bin` and `weight`, and the asymptotic chi-squre for goodness-fit shows including `weight` in the model is better than the null model.
 
 **Q11:** Find the `Estimates` from your association results summary. How do you interpret the estimated effects of weight in the context of linear regression, and in the context of logistic regression?
 
-A: The interpretation on the former was done in **Q9**. The latter can be interpreted that the log odds ratio of `bin (binary mpg)` increases by -0.0040954 for one unit change in `weight`, etc. 
+**A:** The interpretation on the former was done in **Q9**. The latter can be interpreted that the log odds ratio of `bin (binary mpg)` increases by -0.0040954 for one unit change in `weight`, etc. 
 
 ```{r}
 #YOUR CODE

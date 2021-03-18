@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Haoyue Shuai" />
+<meta name="author" content="Hyeonju Kim" />
 
 
 <title>R exercise: phenotype data proprocessing</title>
@@ -1677,8 +1677,8 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">R exercise: phenotype data proprocessing</h1>
-<h4 class="author">Haoyue Shuai</h4>
-<h4 class="date">Oct. 8th, 2020</h4>
+<h4 class="author">Hyeonju Kim</h4>
+<h4 class="date">Mar. 18th, 2021</h4>
 
 </div>
 
@@ -1762,9 +1762,9 @@ div.tocify {
 ## 5       &lt;NA&gt;        Male          58          NA          68          NA
 ## 6       &lt;NA&gt;      Female          49          NA          NA          NA</code></pre>
 <p><strong>Q1:</strong> How many females and males are there in this data? Please show your code below how these numbers are computed.</p>
-<p>A: Female:Male = 77535:67221 (referred to code section)</p>
+<p><strong>A:</strong> Female:Male = 77535:67221 (referred to code section)</p>
 <p><strong>Q2:</strong> What type of trait do you think best describes tinnitus as a phenotype? A.Binary B. Continuous C. Ordinal</p>
-<p>A: C. Ordinal (having 7 levels)</p>
+<p><strong>A:</strong> C. Ordinal (having 7 levels)</p>
 <p><strong>Q3:</strong> Recode f.4803</p>
 <p>Field 4803 (f.4803) is the answers from participants for ACE touchscreen question “Do you get or have you had noises (such as ringing or buzzing) in your head or in one or both ears that lasts for more than five minutes at a time?”</p>
 <p>These fields contains answers to the questions in their first, 2nd, 3rd and 4th hospital visit: f.4803.0.0, f.4803.1.0, f.4803.2.0, f.4803.3.0.</p>
@@ -1813,7 +1813,7 @@ div.tocify {
 ##    0    1 
 ## 1451  691</code></pre>
 <p>What do you think has been achieved by recoding these fields?</p>
-<p>A: Whether <code>tinnitus</code> was suffered (yes/no) seems to matter rather than how often it was suffered.</p>
+<p><strong>A:</strong> Whether <code>tinnitus</code> was suffered (yes/no) seems to matter rather than how often it was suffered, or the former is more interested than the latter.</p>
 <p><strong>Q4:</strong> Define case and control status of tinnitus for each participant in the study:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>data_sub &lt;-<span class="st"> </span>df_recode[,new_column_names]</span>
 <span id="cb13-2"><a href="#cb13-2"></a><span class="co"># Function to define cases</span></span>
@@ -1875,7 +1875,7 @@ div.tocify {
 ## 9  FALSE
 ## 10 FALSE</code></pre>
 <p>How many cases and how many controls do we have for this phenotpype?</p>
-<p>A: FALSE:TRUE =101550:43206 (referred to code section)</p>
+<p><strong>A:</strong> FALSE:TRUE =101550:43206 (referred to code section)</p>
 <p><strong>Q5:</strong> Extract a subset of columns from all participants for association study.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>df_cases  &lt;-<span class="st"> </span>df_recode <span class="op">%&gt;%</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">select</span>(IID,FID,cases)<span class="op">%&gt;%</span><span class="st"> </span></span>
@@ -1946,7 +1946,7 @@ div.tocify {
 <div id="covariates" class="section level3">
 <h3>Covariates</h3>
 <p><strong>Q6:</strong> Field 21003 contains the information of the age of participants, same as field 4803. Note that some of them have more than one age. Can you guess why?</p>
-<p>A: They made next visits.</p>
+<p><strong>A:</strong> They made next visits.</p>
 <p><strong>Q7:</strong> For those with more than one age records, which age do you think should be used in the genetic association analysis?</p>
 <p>A: Based on summary statistics of 3 fields (1st - 4th visits) regardless of control and case groups, the interquartile range is narrow and overlapped across three fields: 57 (or 58) - 67 (or 71). It appears that participants in that range visit at least twice since the first visit has no missing. Since the next visit happened a few years after the first visit or the previous visit, we may consider the interquartile range plus <span class="math inline">\(\alpha\)</span> years in the first visit summary statistics.</p>
 <p><strong>Q8:</strong> Please compute a summary of age information for controls (you can use <code>summary()</code> function in R):</p>
@@ -1969,7 +1969,7 @@ div.tocify {
 <p>To identify genetic factors that may be involved in this trait (tinnitus), we would need to find the association between the genotype and the phenotype. Regression analysis is the basis of many association analysis. Instead of overwhelming you with huge genotype data, we use here a simple dataset for regression analysis to demonstrate what association studies look like.</p>
 <p>We fit below simple linear model with 2 variables from a data-set to see their relationship. For example <code>mpg</code> vs. <code>weight</code> in this <code>ISLR::Auto</code> data-set.</p>
 <p><strong>Q9:</strong> Is there association between <code>mpg of the car</code> and <code>weight of the car</code>? If so, it appearing to be positive or negative? Is the association significant and why?</p>
-<p>A: There is a negative association between <code>mpg</code> and <code>weight</code> since <code>mpg</code> decreases by 0.007647 for one unit of increase in <code>weight</code>, and p-values in F-statistics and t-statistics show the model is significant.</p>
+<p><strong>A:</strong> There is a negative association between <code>mpg</code> and <code>weight</code> since <code>mpg</code> decreases by 0.007647 for one unit of increase in <code>weight</code>, and p-values in F-statistics and t-statistics show the model is significant.</p>
 <pre><code>## Loading required namespace: ISLR</code></pre>
 <pre><code>## 
 ## Call:
@@ -1990,9 +1990,9 @@ div.tocify {
 ## Multiple R-squared:  0.6926, Adjusted R-squared:  0.6918 
 ## F-statistic: 878.8 on 1 and 390 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p><strong>Q10:</strong> Please create a new variable to indicate cars having MPG greater than 23 as 1, otherwise 0, then use logistic regrssion via <code>glm()</code> function to analyze association between weight and this new variable you just created. Please comment on what you find.</p>
-<p>A: There exists association between the new variable <code>bin</code> and <code>weight</code>, and the asymptotic chi-squre for goodness-fit shows including <code>weight</code> in the model is better than the null model.</p>
+<p><strong>A:</strong> There exists association between the new variable <code>bin</code> and <code>weight</code>, and the asymptotic chi-squre for goodness-fit shows including <code>weight</code> in the model is better than the null model.</p>
 <p><strong>Q11:</strong> Find the <code>Estimates</code> from your association results summary. How do you interpret the estimated effects of weight in the context of linear regression, and in the context of logistic regression?</p>
-<p>A: The interpretation on the former was done in <strong>Q9</strong>. The latter can be interpreted that the log odds ratio of <code>bin (binary mpg)</code> increases by -0.0040954 for one unit change in <code>weight</code>, etc.</p>
+<p><strong>A:</strong> The interpretation on the former was done in <strong>Q9</strong>. The latter can be interpreted that the log odds ratio of <code>bin (binary mpg)</code> increases by -0.0040954 for one unit change in <code>weight</code>, etc.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co">#YOUR CODE</span></span>
 <span id="cb23-2"><a href="#cb23-2"></a>auto_data<span class="op">$</span>bin&lt;-(auto_data<span class="op">$</span>mpg<span class="op">&gt;</span><span class="dv">23</span>)</span>
 <span id="cb23-3"><a href="#cb23-3"></a>logit&lt;-<span class="kw">glm</span>(bin<span class="op">~</span>weight, <span class="dt">data =</span> auto_data,<span class="dt">family =</span> binomial)</span>
